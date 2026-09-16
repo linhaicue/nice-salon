@@ -16,20 +16,7 @@ AI should help people notice meaningful changes, connect evidence across the bus
 
 **Wayfinder Track — D1 OPEN**: choose the first real business decision loop worth augmenting with AI. No candidate is selected yet. C2 (appointment → arrival → service → rebooking) is unsuitable for the current operating workflow because the shop does not use Meiguanjia appointments or SMS as a regular process. C4 (demand × capacity mismatch) remains unproven; workflow reality is UNKNOWN. Do not turn a candidate into a product design before its real workflow is established.
 
-**Foundation Track — #10 OPEN, parallel with D1**: build only the smallest durable foundation that does not depend on the selected D1 scenario. Current pin is Slice 1:
-
-```text
-real Meiguanjia consumption record
-→ authenticated, read-only page acquisition
-→ Raw Evidence + provenance
-→ evidence classification
-→ minimal canonical record
-→ customer / employee / service identity links
-→ sync state and freshness
-→ current fact views
-```
-
-Slice 1 is a mechanism proof, not the final data-coverage target. After it passes, stop and return to Wayfinder; do not automatically start a full source sweep.
+**Foundation Track — #10 OPEN, parallel with D1**: Slice 1 passed as a narrow mechanism proof. The current pin is **#13 Meiguanjia System Discovery**: map the business meaning, use, evidence type, granularity, identity, freshness, read access, and Foundation value of the visible domains before choosing further coverage slices. Customer/member master Slice 2 (#12) is paused and blocked by #13. D1 remains OPEN.
 
 ## Sources and coverage
 
@@ -65,13 +52,13 @@ This expresses an observed relationship; it is not a complete or implemented dat
 
 ## Verified evidence and open questions (2026-09-16)
 
-- #11 research is **closed with a decision**: v0 Source Contract is authenticated page-level read through the logged-in Meiguanjia UI. The date range, page-level pagination, repeat reads, and visible record IDs had positive evidence. The shop was open during same-day sampling, so the record count naturally increased.
-- The internal POST body and low-level pagination parameters remain unknown and are non-blocking; do not replay internal requests outside the page.
-- Slice implementation still must prove the query-completion event hook, explicit empty-result behavior, and completeness when business data changes during a multi-page scan.
-- Raw Evidence persistence, sync/change semantics, freshness, canonical persistence, identity mapping, and current views have not yet been implemented or accepted.
-- D1 evidence is incomplete: C4 workflow reality is UNKNOWN. Do not fill gaps with invented examples.
+- #11 is closed with the v0 source-contract decision: authenticated, read-only page-level access. Its research evidence covers page date filtering, pagination, repeat reads, and visible record IDs; it does not assert full Meiguanjia integration.
+- Foundation Slice 1 is **PASS for one selected record from a complete rendered result**. Commit `42a16ce` preserves Raw Evidence/provenance, classifies the consumption record as `SYSTEM_FACT`, stores the observed `Transaction → LineItem[] → StaffAssignment[]` relation, updates current fact views, and identifies the repeated read as `unchanged`.
+- The Slice 1 capture is `selected_record_only`. It does not prove automatic query-completion detection, bulk/multi-page acquisition, live-scan consistency, source cancellation/deletion/update semantics, background synchronization, or `source_updated_at` availability. A consumption record does not prove arrival or completed service.
+- The current Source Coverage Map is preliminary and distinguishes historical menu evidence from live page evidence. Menu presence does not prove real-world use, stable readability, or business value. Appointment and SMS non-use is confirmed; other module usage remains UNKNOWN unless evidenced.
+- D1 remains open. C4 workflow reality is UNKNOWN; do not fill gaps with invented examples.
 
-The current source of status and next work is [Master Map #1](https://github.com/linhaicue/nice-salon/issues/1), [Foundation #10](https://github.com/linhaicue/nice-salon/issues/10), and [Slice 1 research #11](https://github.com/linhaicue/nice-salon/issues/11). The research evidence is in [foundation-slice-1-report.md](./docs/research/foundation-slice-1-report.md). Accepted architectural rationale is in [docs/adr](./docs/adr/).
+The current source of status and next work is [Master Map #1](https://github.com/linhaicue/nice-salon/issues/1), [Foundation #10](https://github.com/linhaicue/nice-salon/issues/10), [Discovery #13](https://github.com/linhaicue/nice-salon/issues/13), and [paused Slice 2 #12](https://github.com/linhaicue/nice-salon/issues/12). Evidence is in [foundation-slice-1-report.md](./docs/research/foundation-slice-1-report.md), [d2-fact-reliability-report.md](./docs/research/d2-fact-reliability-report.md), and the preliminary [Meiguanjia Source Coverage Map](./docs/research/meiguanjia-source-coverage-map.md). Accepted architectural rationale is in [docs/adr](./docs/adr/).
 
 ## Hard boundaries
 
@@ -80,5 +67,7 @@ The current source of status and next work is [Master Map #1](https://github.com
 - Do not design full schemas, Store State, signal/finding/action engines, operating memory, or multiple agents ahead of evidence and a validated loop.
 - Raw evidence, source-derived results, deterministic derivations, human reports, and AI inferences remain distinguishable and traceable.
 - Build only what the current pin requires; a long-term coverage goal is not permission to implement every domain now.
+- Discovery is semantic and read-only. Do not reverse-engineer every API or copy all fields; mark unavailable or unverified claims UNKNOWN.
+- Do not resume Customer/member Slice 2 until Discovery is complete and the evidence-based coverage order is reconsidered.
 
 Update this context when an accepted decision, verified evidence, or current pin changes. Use GitHub issues for active scope and work; use `docs/research/` for evidence; use ADRs for durable decisions and their rationale.
